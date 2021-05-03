@@ -3,6 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include <Actor.h>
+
 #include "Components/ActorComponent.h"
 #include "Engine/TriggerVolume.h"
 
@@ -17,6 +20,8 @@ class BUILDINGESCAPE_API UOpenDoor : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UOpenDoor();
+	void OpenDoor();
+	void CloseDoor();
 
 protected:
 	// Called when the game starts
@@ -28,8 +33,17 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(EditAnywhere)
 	float OpenAngle = 90.f;
 	UPROPERTY(EditAnywhere)
+	float CloseAngle = 0.f;
+	UPROPERTY(EditAnywhere)
 	ATriggerVolume* PressurePlate;
+
+	UPROPERTY(EditAnywhere)
+	float CloseDelay = 0.5f;
+
+	float LastDoorOpenTime;
+
+	AActor* ActorThatOpens;
 };
