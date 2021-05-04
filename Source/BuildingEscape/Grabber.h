@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
+
 #include "Grabber.generated.h"
 
 
@@ -15,6 +17,8 @@ class BUILDINGESCAPE_API UGrabber : public UActorComponent
 public:
 	// Sets default values for this component's properties
 	UGrabber();
+	void SetupInputComponent();
+	void FindPhysicsHandleComponent();
 
 protected:
 	// Called when the game starts
@@ -27,4 +31,10 @@ public:
 
 private:
 	float Reach = 100.f;
+	UPhysicsHandleComponent* PhysicsHandle = nullptr;
+	UInputComponent* InputComponent = nullptr;
+
+	void Grab();
+	void Release();
+	const FHitResult GetFirstPhysicsBodyInReach();
 };
