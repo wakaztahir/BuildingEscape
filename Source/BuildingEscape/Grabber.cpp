@@ -37,10 +37,7 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 void UGrabber::FindPhysicsHandleComponent()
 {
 	PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
-	if (PhysicsHandle)
-	{
-	}
-	else
+	if (PhysicsHandle == nullptr)
 	{
 		UE_LOG(LogTemp, Error, TEXT("%s -> Grabber : PhysicsHandle Componenet not found"), *GetOwner()->GetName());
 	}
@@ -65,7 +62,7 @@ void UGrabber::Grab()
 	auto hitResult = GetFirstPhysicsBodyInReach();
 	auto componentToGrab = hitResult.GetComponent();
 	auto actor = hitResult.GetActor();
-	if (actor)
+	if (PhysicsHandle && actor)
 	{
 		PhysicsHandle->GrabComponentAtLocationWithRotation(componentToGrab, NAME_None, actor->GetActorLocation(),
 		                                                   FRotator(0.f, 0.f, 0.f));
@@ -74,6 +71,7 @@ void UGrabber::Grab()
 
 void UGrabber::Release()
 {
+	if (!PhysicsHandle) { return; }
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->ReleaseComponent();
@@ -129,6 +127,7 @@ FVector UGrabber::GetReachLineEnd()
 
 void UGrabber::MoveGrabbedComponent()
 {
+	if (!PhysicsHandle) { return; }
 	if (PhysicsHandle->GrabbedComponent)
 	{
 		PhysicsHandle->SetTargetLocation(GetReachLineEnd());

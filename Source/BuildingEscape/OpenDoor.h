@@ -34,18 +34,22 @@ public:
 	                           FActorComponentTickFunction* ThisTickFunction) override;
 
 private:
+	//UProperties
 	UPROPERTY(EditAnywhere)
 	float OpenAngle = 90.f;
+	
 	UPROPERTY(EditAnywhere)
 	float CloseAngle = 0.f;
+	
 	UPROPERTY(EditAnywhere)
-	ATriggerVolume* PressurePlate;
+	ATriggerVolume* PressurePlate = nullptr;
 
 	UPROPERTY(EditAnywhere)
 	float CloseDelay = 0.5f;
 
-	float LastDoorOpenTime;
-
 	UPROPERTY(EditAnywhere)
 	float TriggerMass = 30.f;
+
+	//Helper Properties
+	float LastDoorOpenTime = 0.f;
 };
