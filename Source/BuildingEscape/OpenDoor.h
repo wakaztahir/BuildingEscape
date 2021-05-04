@@ -28,6 +28,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:
+	float GetTotalMassOfActorsOnPlate();
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType,
 	                           FActorComponentTickFunction* ThisTickFunction) override;
@@ -45,5 +46,6 @@ private:
 
 	float LastDoorOpenTime;
 
-	AActor* ActorThatOpens;
+	UPROPERTY(EditAnywhere)
+	float TriggerMass = 30.f;
 };
