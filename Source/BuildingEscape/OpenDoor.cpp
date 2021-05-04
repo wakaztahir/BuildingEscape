@@ -4,7 +4,6 @@
 #include "OpenDoor.h"
 
 #define OUT
-
 // Sets default values for this component's properties
 UOpenDoor::UOpenDoor()
 {
@@ -29,13 +28,11 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 
 	if (GetTotalMassOfActorsOnPlate() > TriggerMass)
 	{
-		OpenDoor();
-		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
+		OnOpen.Broadcast();
 	}
-
-	if (GetWorld()->GetTimeSeconds() - LastDoorOpenTime > CloseDelay && GetTotalMassOfActorsOnPlate() < TriggerMass)
+	else
 	{
-		CloseDoor();
+		OnClose.Broadcast();
 	}
 }
 
@@ -55,16 +52,4 @@ float UOpenDoor::GetTotalMassOfActorsOnPlate()
 	}
 
 	return totalMass;
-}
-
-
-void UOpenDoor::OpenDoor()
-{
-	GetOwner()->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f));
-}
-
-
-void UOpenDoor::CloseDoor()
-{
-	GetOwner()->SetActorRotation(FRotator(0.0f, CloseAngle, 0.0f));
 }
